@@ -7,19 +7,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["Staff/Contacts.csproj", "Staff/"]
-COPY ["StaffLibrary/ContactsLibrary.csproj", "StaffLibrary/"]
+COPY ["ContactsMVC/ContactsMVC.csproj", "ContactsMVC/"]
+COPY ["ContactsLibrary/ContactsLibrary.csproj", "ContactsLibrary/"]
 COPY ["CoreBusinessLibrary/CoreBusinessLibrary.csproj", "CoreBusinessLibrary/"]
-COPY ["StaffData/ContactsData.csproj", "StaffData/"]
-RUN dotnet restore "Staff/Contacts.csproj"
+COPY ["ContactsData/ContactsData.csproj", "ContactsData/"]
+RUN dotnet restore "ContactsMVC/ContactsMVC.csproj"
 COPY . .
-WORKDIR "/src/Staff"
-RUN dotnet build "Contacts.csproj" -c Release -o /app/build
+WORKDIR "/src/ContactsMVC"
+RUN dotnet build "ContactsMVC.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Contacts.csproj" -c Release -o /app/publish
+RUN dotnet publish "ContactsMVC.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Contacts.dll"]
+ENTRYPOINT ["dotnet", "ContactsMVC.dll"]
