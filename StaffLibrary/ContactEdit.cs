@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using ContactsData;
+using CoreBusinessLibrary;
 using Csla;
-using StaffData;
-using StaffLibrary.Shared;
 
-namespace StaffLibrary
+namespace ContactsLibrary
 {
   [Serializable]
-  public class StaffEdit : BusinessBase<StaffEdit>
+  public class ContactEdit : BusinessBase<ContactEdit>
   {
     public static readonly PropertyInfo<int> IdProperty = RegisterProperty<int>(nameof(Id));
     public int Id
@@ -16,12 +16,12 @@ namespace StaffLibrary
       set => SetProperty(IdProperty, value);
     }
 
-    public static readonly PropertyInfo<string> FirstNameProperty = RegisterProperty<string>(nameof(FirstName));
+    public static readonly PropertyInfo<string> FirstnameProperty = RegisterProperty<string>(nameof(Firstname));
     [Required]
-    public string FirstName
+    public string Firstname
     {
-      get => GetProperty(FirstNameProperty);
-      set => SetProperty(FirstNameProperty, value);
+      get => GetProperty(FirstnameProperty);
+      set => SetProperty(FirstnameProperty, value);
     }
 
     public static readonly PropertyInfo<string> SurnameProperty = RegisterProperty<string>(nameof(Surname));
@@ -32,12 +32,20 @@ namespace StaffLibrary
       set => SetProperty(SurnameProperty, value);
     }
 
+    public static readonly PropertyInfo<string> EmailAddressProperty = RegisterProperty<string>(nameof(EmailAddress));
+    [Required]
+    public string EmailAddress
+    {
+        get => GetProperty(EmailAddressProperty);
+        set => SetProperty(EmailAddressProperty, value);
+    }
+
     protected override void AddBusinessRules()
     {
       base.AddBusinessRules();
-      BusinessRules.AddRule(new InfoText(FirstNameProperty, "Firstname (required)"));
-      BusinessRules.AddRule(new CheckCase(FirstNameProperty));
-      BusinessRules.AddRule(new NoSpaceAllowed(FirstNameProperty));
+      BusinessRules.AddRule(new InfoText(FirstnameProperty, "Firstname (required)"));
+      BusinessRules.AddRule(new CheckCase(FirstnameProperty));
+      BusinessRules.AddRule(new NoSpaceAllowed(FirstnameProperty));
 
       BusinessRules.AddRule(new InfoText(SurnameProperty, "Surname (required)"));
       BusinessRules.AddRule(new CheckCase(SurnameProperty));
@@ -52,7 +60,7 @@ namespace StaffLibrary
     }
 
     [Fetch]
-    private void Fetch(int id, [Inject]IStaff dal)
+    private void Fetch(int id, [Inject]IContactRepository dal)
     {
       var data = dal.Get(id);
       using (BypassPropertyChecks)
@@ -61,14 +69,15 @@ namespace StaffLibrary
     }
 
     [Insert]
-    private void Insert([Inject]IStaff dal)
+    private void Insert([Inject]IContactRepository dal)
     {
       using (BypassPropertyChecks)
       {
-        var data = new StaffEntity
+        var data = new ContactEntity
         {
-          Firstname = FirstName,
-          Surname = Surname
+          Firstname = Firstname,
+          Surname = Surname,
+          EmailAddress = EmailAddress
           
         };
         var result = dal.Insert(data);
@@ -77,28 +86,29 @@ namespace StaffLibrary
     }
 
     [Update]
-    private void Update([Inject]IStaff dal)
+    private void Update([Inject]IContactRepository dal)
     {
       using (BypassPropertyChecks)
       {
-        var data = new StaffEntity
+        var data = new ContactEntity
         {
           Id = Id,
-          Firstname = FirstName,
-          Surname = Surname
+          Firstname = Firstname,
+          Surname = Surname,
+          EmailAddress = EmailAddress
         };
         dal.Update(data);
       }
     }
 
     [DeleteSelf]
-    private void DeleteSelf([Inject]IStaff dal)
+    private void DeleteSelf([Inject]IContactRepository dal)
     {
       Delete(ReadProperty(IdProperty), dal);
     }
 
     [Delete]
-    private void Delete(int id, [Inject]IStaff dal)
+    private void Delete(int id, [Inject]IContactRepository dal)
     {
       dal.Delete(id);
     }

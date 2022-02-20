@@ -1,6 +1,4 @@
-using System;
-
-namespace Staff.Models
+namespace Contacts.Models
 {
     public class ErrorViewModel
     {

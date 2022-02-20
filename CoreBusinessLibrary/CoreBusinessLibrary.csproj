@@ -8,8 +8,4 @@
     <PackageReference Include="Csla" Version="5.5.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StaffData\StaffData.csproj" />
-  </ItemGroup>
-
 </Project>

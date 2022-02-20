@@ -1,6 +1,6 @@
 ﻿using Csla.Rules;
 
-namespace StaffLibrary.Shared
+namespace CoreBusinessLibrary
 {
   public class InfoText : BusinessRule
   {

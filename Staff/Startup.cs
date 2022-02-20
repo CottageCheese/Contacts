@@ -1,13 +1,12 @@
+using ContactsData;
+using Csla.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Csla.Configuration;
-using DataAccess.Staff;
-using StaffData;
 
-namespace Staff
+namespace Contacts
 {
     public class Startup
     {
@@ -27,7 +26,7 @@ namespace Staff
             services.AddHttpContextAccessor();
 
             services.AddCsla();
-            services.AddTransient(typeof(IStaff), typeof(StaffDal));
+            services.AddTransient(typeof(IContactRepository), typeof(ContactRepositoryDal));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

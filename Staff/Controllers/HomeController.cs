@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Contacts.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Staff.Models;
-using System.Diagnostics;
 
-namespace Staff.Controllers
+namespace Contacts.Controllers
 {
     public class HomeController : Controller
     {
