@@ -1,2 +1,2 @@
-# Staff
-Staff Example using .Net Core, CSLA
+# Contacts
+Contacts Example using .Net Core, CSLA
