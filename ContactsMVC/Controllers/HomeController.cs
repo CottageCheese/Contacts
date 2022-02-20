@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Contacts.Models;
+using ContactsMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
