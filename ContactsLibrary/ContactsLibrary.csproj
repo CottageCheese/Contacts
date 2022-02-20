@@ -10,11 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreBusinessLibrary\CoreBusinessLibrary.csproj" />
-    <ProjectReference Include="..\StaffData\ContactsData.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Shared\" />
+    <ProjectReference Include="..\ContactsData\ContactsData.csproj" />
   </ItemGroup>
 
 </Project>

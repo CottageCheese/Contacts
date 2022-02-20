@@ -3,7 +3,7 @@ using Contacts.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Contacts.Controllers
+namespace ContactsMVC.Controllers
 {
     public class HomeController : Controller
     {
