@@ -6,13 +6,13 @@ namespace ContactsData
 {
   public class ContactRepositoryDal : IContactRepository
   {
-    private static readonly List<ContactEntity> _contactsTable = new()
+    private static readonly List<ContactEntity> _contactsTable = new List<ContactEntity>()
     { 
-      new ContactEntity { Id = 1, Firstname = "Bill", Surname = "Marks"},
-      new ContactEntity { Id = 2, Firstname = "Becky", Surname = "Connor"},
-      new ContactEntity { Id = 3, Firstname = "Tam", Surname = "Kane"},
-      new ContactEntity { Id = 4, Firstname = "Stephen", Surname = "Smith"},
-      new ContactEntity { Id = 5, Firstname = "Ian", Surname = "Jenkins"},
+      new ContactEntity { Id = 1, Firstname = "Bill", Surname = "Marks", Email = "Marks@bh.com"},
+      new ContactEntity { Id = 2, Firstname = "Becky", Surname = "Connor", Email = "BConnor@orange.co.uk"},
+      new ContactEntity { Id = 3, Firstname = "Tam", Surname = "Kane", Email = "tam.kane7878@hotmail.com"},
+      new ContactEntity { Id = 4, Firstname = "Stephen", Surname = "Smith", Email = "SSmith@bbc.co.uk"},
+      new ContactEntity { Id = 5, Firstname = "Ian", Surname = "Jenkins", Email = "Jenkins@Orange.co.uk"},
     };
 
     public bool Delete(int id)

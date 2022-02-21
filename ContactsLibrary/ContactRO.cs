@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using ContactsData;
 using Csla;
 
@@ -29,11 +28,11 @@ namespace ContactsLibrary
             private set => LoadProperty(SurnameProperty, value);
         }
 
-        public static readonly PropertyInfo<string> EmailAddressProperty = RegisterProperty<string>(nameof(EmailAddress));
-        public string EmailAddress
+        public static readonly PropertyInfo<string> EmailProperty = RegisterProperty<string>(nameof(Email));
+        public string Email
         {
-            get => GetProperty(EmailAddressProperty);
-            private set => LoadProperty(EmailAddressProperty, value);
+            get => GetProperty(EmailProperty);
+            private set => LoadProperty(EmailProperty, value);
         }
 
         [Fetch]
@@ -49,7 +48,7 @@ namespace ContactsLibrary
             Id = data.Id;
             Firstname = data.Firstname;
             Surname = data.Surname;
-            EmailAddress = data.EmailAddress;
+            Email = data.Email;
         }
     }
 }

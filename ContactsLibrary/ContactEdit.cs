@@ -32,12 +32,12 @@ namespace ContactsLibrary
       set => SetProperty(SurnameProperty, value);
     }
 
-    public static readonly PropertyInfo<string> EmailAddressProperty = RegisterProperty<string>(nameof(EmailAddress));
+    public static readonly PropertyInfo<string> EmailProperty = RegisterProperty<string>(nameof(Email));
     [Required]
-    public string EmailAddress
+    public string Email
     {
-        get => GetProperty(EmailAddressProperty);
-        set => SetProperty(EmailAddressProperty, value);
+        get => GetProperty(EmailProperty);
+        set => SetProperty(EmailProperty, value);
     }
 
     protected override void AddBusinessRules()
@@ -77,7 +77,7 @@ namespace ContactsLibrary
         {
           Firstname = Firstname,
           Surname = Surname,
-          EmailAddress = EmailAddress
+          Email = Email
           
         };
         var result = dal.Insert(data);
@@ -95,7 +95,7 @@ namespace ContactsLibrary
           Id = Id,
           Firstname = Firstname,
           Surname = Surname,
-          EmailAddress = EmailAddress
+          Email = Email
         };
         dal.Update(data);
       }
