@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactsData", "ContactsDat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBusinessLibrary", "CoreBusinessLibrary\CoreBusinessLibrary.csproj", "{AC71B243-E005-4F48-869F-BF988A1F7927}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBusinessLibraryUnitTests", "CoreBusinessLibraryDotNetTests\CoreBusinessLibraryUnitTests.csproj", "{4199C663-F854-4400-A174-6CA54D0CB41D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AC71B243-E005-4F48-869F-BF988A1F7927}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC71B243-E005-4F48-869F-BF988A1F7927}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC71B243-E005-4F48-869F-BF988A1F7927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4199C663-F854-4400-A174-6CA54D0CB41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4199C663-F854-4400-A174-6CA54D0CB41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4199C663-F854-4400-A174-6CA54D0CB41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4199C663-F854-4400-A174-6CA54D0CB41D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
