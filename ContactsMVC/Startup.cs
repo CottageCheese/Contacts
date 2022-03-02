@@ -25,6 +25,7 @@ namespace ContactsMVC
 
             services.AddHttpContextAccessor();
 
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddCsla();
             services.AddTransient(typeof(IContactRepository), typeof(ContactRepositoryDal));
         }
