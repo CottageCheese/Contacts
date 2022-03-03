@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ContactsData;
 using Csla;
 
@@ -21,11 +22,11 @@ namespace ContactsLibrary
             private set => LoadProperty(FirstNameProperty, value);
         }
 
-        public static readonly PropertyInfo<string> SurnameProperty = RegisterProperty<string>(nameof(Surname));
+        public static readonly PropertyInfo<string> LastnameProperty = RegisterProperty<string>(nameof(Surname));
         public string Surname
         {
-            get => GetProperty(SurnameProperty);
-            private set => LoadProperty(SurnameProperty, value);
+            get => GetProperty(LastnameProperty);
+            private set => LoadProperty(LastnameProperty, value);
         }
 
         public static readonly PropertyInfo<string> EmailProperty = RegisterProperty<string>(nameof(Email));
@@ -35,6 +36,20 @@ namespace ContactsLibrary
             private set => LoadProperty(EmailProperty, value);
         }
 
+#region Factory Methods
+
+        public static async Task<ContactRO> GetContactROAsync(int contactId)
+        {
+            return await DataPortal.FetchAsync<ContactRO>(contactId);
+        }
+
+        internal static ContactRO GetContactROChild(ContactEntity contactEntity)
+        {
+            return DataPortal.FetchChild<ContactRO>(contactEntity);
+        }
+
+#endregion
+
         [Fetch]
         private void Fetch(int id, [Inject] IContactRepository dal)
         {
@@ -43,12 +58,12 @@ namespace ContactsLibrary
         }
 
         [FetchChild]
-        private void Fetch(ContactEntity data)
+        private void Fetch(ContactEntity contactEntity)
         {
-            Id = data.Id;
-            Firstname = data.Firstname;
-            Surname = data.Surname;
-            Email = data.Email;
+            LoadProperty(IdProperty, contactEntity.Id);
+            LoadProperty(FirstNameProperty, contactEntity.Firstname);
+            LoadProperty(LastnameProperty, contactEntity.Lastname);
+            LoadProperty(EmailProperty, contactEntity.Email);
         }
     }
 }

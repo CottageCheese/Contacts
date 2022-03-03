@@ -7,15 +7,17 @@ namespace ContactsMVC.Controllers
 {
     public class ContactsController : Csla.Web.Mvc.Controller
     {
+
         public async Task<ActionResult> Index()
         {
-            var list = await DataPortal.FetchAsync<ContactList>();
+            var list = await ContactList.GetContactListAsync();
+
             return View(list);
         }
 
         public async Task<ActionResult> Details(int id)
         {
-            var obj = await DataPortal.FetchAsync<ContactRO>(id);
+            var obj = await ContactRO.GetContactROAsync(id);
             return View(obj);
         }
 
