@@ -34,6 +34,7 @@ namespace ContactsWebService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ContactsWebService", Version = "v1" });
             });
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddCsla();
             services.AddTransient(typeof(IContactRepository), typeof(ContactRepositoryDal));
         }
