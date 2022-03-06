@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using ContactsData;
+using ContactsData.Interfaces;
 using CoreBusinessLibrary;
 using Csla;
 
@@ -64,8 +65,7 @@ namespace ContactsLibrary
         #endregion
 
         [Fetch]
-        //protected void DataPortal_Fetch(int id, [Inject] IConfiguration configuration, [Inject] IContactRepository dal)
-        protected void DataPortal_Fetch(int id, [Inject] IContactRepository dal)
+        protected void DataPortal_Fetch(int id, [Inject] IRepository<ContactDto> dal)
         {
             var data = dal.Get(id);
 
@@ -86,12 +86,11 @@ namespace ContactsLibrary
 
         [Insert]
         [Transactional(TransactionalTypes.TransactionScope)]
-        //private void Insert([Inject] IConfiguration configuration, [Inject] IContactRepository dal)
-        private void Insert([Inject] IContactRepository dal)
+        private void Insert([Inject] IRepository<ContactDto> dal)
         {
             using (BypassPropertyChecks)
             {
-                var data = new ContactEntity
+                var data = new ContactDto
                 {
                     Firstname = Firstname,
                     Lastname = Surname,
@@ -104,11 +103,12 @@ namespace ContactsLibrary
         }
 
         [Update]
-        private void Update([Inject]IContactRepository dal)
+        [Transactional(TransactionalTypes.TransactionScope)]
+        private void Update([Inject] IRepository<ContactDto> dal)
         {
             using (BypassPropertyChecks)
             {
-                var data = new ContactEntity
+                var data = new ContactDto
                 {
                 Id = Id,
                 Firstname = Firstname,
@@ -120,13 +120,15 @@ namespace ContactsLibrary
         }
 
         [DeleteSelf]
-        private void DeleteSelf([Inject]IContactRepository dal)
+        [Transactional(TransactionalTypes.TransactionScope)]
+        private void DeleteSelf([Inject] IRepository<ContactDto> dal)
         {
             Delete(ReadProperty(IdProperty), dal);
         }
 
         [Delete]
-        private void Delete(int id, [Inject]IContactRepository dal)
+        [Transactional(TransactionalTypes.TransactionScope)]
+        private void Delete(int id, [Inject] IRepository<ContactDto> dal)
         {
             dal.Delete(id);
         }

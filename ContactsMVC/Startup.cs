@@ -1,4 +1,5 @@
 using ContactsData;
+using ContactsData.Interfaces;
 using Csla.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,7 @@ namespace ContactsMVC
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddCsla();
-            services.AddTransient(typeof(IContactRepository), typeof(ContactRepositoryDal));
+            services.AddTransient(typeof(IRepository<ContactDto>), typeof(ContactRepositoryDal));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

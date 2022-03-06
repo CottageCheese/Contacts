@@ -1,6 +1,6 @@
 ﻿namespace ContactsData
 {
-    public class ContactEntity
+    public class ContactDto
     {
         public int Id { get; set; }
         public string Firstname { get; set; }

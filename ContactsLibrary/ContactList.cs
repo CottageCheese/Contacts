@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 using ContactsData;
+using ContactsData.Interfaces;
 using Csla;
-using Csla.Data;
-using Microsoft.Extensions.Configuration;
 
 namespace ContactsLibrary
 {
@@ -23,7 +20,7 @@ namespace ContactsLibrary
 #endregion
 
         [Fetch]
-        protected void DataPortal_Fetch([Inject] IConfiguration configuration, [Inject] IContactRepository dal)
+        protected void DataPortal_Fetch([Inject] IRepository<ContactDto> dal)
         {
             RaiseListChangedEvents = false;
             IsReadOnly = false;

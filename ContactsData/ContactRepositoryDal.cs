@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using ContactsData.Interfaces;
 using Csla.Data;
 using Microsoft.Extensions.Configuration;
 
 namespace ContactsData
 {
-    public class ContactRepositoryDal : IContactRepository
+    public class ContactRepositoryDal : IRepository<ContactDto>
     {
         private readonly IConfiguration _configuration;
 
@@ -17,26 +18,35 @@ namespace ContactsData
 
         public bool Delete(int id)
         {
+            var connString = _configuration.GetConnectionString("MyConn");
+
+            using (var manager = ConnectionManager<SqlConnection>.GetManager(connString, false))
+            {
+                using (var command = new SqlCommand("Contacts_Delete_Contact_SP", manager.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+
             return true;
         }
 
         public bool Exists(int id)
         {
-            //TODO DONT NEED THIS IN HERE
-            //var person = _contactsTable.FirstOrDefault(p => p.Id == id);
-            //return person != null;
-            return false;
+            return Get(id) != null;
         }
 
-        public ContactEntity Get(int id)
+        public ContactDto Get(int id)
         {
-            ContactEntity contactEntity = null;
+            ContactDto contactDto = null;
 
-            string connString = _configuration.GetConnectionString("MyConn");
+            var connString = _configuration.GetConnectionString("MyConn");
 
             using (var manager = ConnectionManager<SqlConnection>.GetManager(connString, false))
             {
-                using (var command = new SqlCommand("Contacts_Get_Contact_By_Id", manager.Connection))
+                using (var command = new SqlCommand("Contacts_Get_Contact_By_ID_SP", manager.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -46,10 +56,9 @@ namespace ContactsData
                     dataset.Load(command.ExecuteReader(), LoadOption.OverwriteChanges, "Contacts");
 
                     if (dataset.Tables["Contacts"].Rows.Count > 0)
-                    {
                         foreach (DataRow row in dataset.Tables["Contacts"].Rows)
                         {
-                            contactEntity = new ContactEntity
+                            contactDto = new ContactDto
                             {
                                 Id = row.Field<int>("ID"),
                                 Firstname = row.Field<string>("Firstname"),
@@ -58,19 +67,17 @@ namespace ContactsData
                             };
                             break;
                         }
-                    }
                     else
-                    {
                         throw new KeyNotFoundException($"Id {id}");
-                    }
                 }
             }
-            return contactEntity;
+
+            return contactDto;
         }
 
-        public List<ContactEntity> Get()
+        public List<ContactDto> Get()
         {
-            string connString = _configuration.GetConnectionString("MyConn");
+            var connString = _configuration.GetConnectionString("MyConn");
 
             using (var manager = ConnectionManager<SqlConnection>.GetManager(connString, false))
             {
@@ -81,10 +88,10 @@ namespace ContactsData
                     var dataset = new DataSet();
                     dataset.Load(command.ExecuteReader(), LoadOption.OverwriteChanges, "Contacts");
 
-                    var list = new List<ContactEntity>();
+                    var list = new List<ContactDto>();
                     foreach (DataRow row in dataset.Tables["Contacts"].Rows)
                     {
-                        var contactEntity = new ContactEntity
+                        var contactEntity = new ContactDto
                         {
                             Id = row.Field<int>("ID"),
                             Firstname = row.Field<string>("Firstname"),
@@ -93,18 +100,19 @@ namespace ContactsData
                         };
                         list.Add(contactEntity);
                     }
+
                     return list;
                 }
             }
         }
 
-        public ContactEntity Insert(ContactEntity contact)
+        public ContactDto Insert(ContactDto contact)
         {
-            string connString = _configuration.GetConnectionString("MyConn");
+            var connString = _configuration.GetConnectionString("MyConn");
 
             using (var manager = ConnectionManager<SqlConnection>.GetManager(connString, false))
             {
-                using (var command = new SqlCommand("Insert_Contact_SP", manager.Connection))
+                using (var command = new SqlCommand("Contacts_Insert_Contact_SP", manager.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -112,7 +120,7 @@ namespace ContactsData
                     command.Parameters.AddWithValue("@Lastname", contact.Lastname);
                     command.Parameters.AddWithValue("@Email", contact.Email);
 
-                    SqlParameter idParameter = command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
+                    var idParameter = command.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int));
                     idParameter.Direction = ParameterDirection.Output;
 
                     command.ExecuteNonQuery();
@@ -120,12 +128,30 @@ namespace ContactsData
                     contact.Id = (int)command.Parameters["@Id"].Value;
                 }
             }
+
             return contact;
         }
 
-        public ContactEntity Update(ContactEntity contact)
+        public ContactDto Update(ContactDto contact)
         {
-            return null;
+            var connString = _configuration.GetConnectionString("MyConn");
+
+            using (var manager = ConnectionManager<SqlConnection>.GetManager(connString, false))
+            {
+                using (var command = new SqlCommand("Contacts_Update_Contact_SP", manager.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Id", contact.Id);
+                    command.Parameters.AddWithValue("@Firstname", contact.Firstname);
+                    command.Parameters.AddWithValue("@Lastname", contact.Lastname);
+                    command.Parameters.AddWithValue("@Email", contact.Email);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            return contact;
         }
     }
 }
