@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ContactsData;
+using ContactsData.Interfaces;
 using Csla;
 
 namespace ContactsLibrary
@@ -43,27 +44,27 @@ namespace ContactsLibrary
             return await DataPortal.FetchAsync<ContactRO>(contactId);
         }
 
-        internal static ContactRO GetContactROChild(ContactEntity contactEntity)
+        internal static ContactRO GetContactROChild(ContactDto contactDto)
         {
-            return DataPortal.FetchChild<ContactRO>(contactEntity);
+            return DataPortal.FetchChild<ContactRO>(contactDto);
         }
 
 #endregion
 
         [Fetch]
-        private void Fetch(int id, [Inject] IContactRepository dal)
+        private void Fetch(int id, [Inject] IRepository<ContactDto> dal)
         {
             var data = dal.Get(id);
             Fetch(data);
         }
 
         [FetchChild]
-        private void Fetch(ContactEntity contactEntity)
+        private void Fetch(ContactDto contactDto)
         {
-            LoadProperty(IdProperty, contactEntity.Id);
-            LoadProperty(FirstNameProperty, contactEntity.Firstname);
-            LoadProperty(LastnameProperty, contactEntity.Lastname);
-            LoadProperty(EmailProperty, contactEntity.Email);
+            LoadProperty(IdProperty, contactDto.Id);
+            LoadProperty(FirstNameProperty, contactDto.Firstname);
+            LoadProperty(LastnameProperty, contactDto.Lastname);
+            LoadProperty(EmailProperty, contactDto.Email);
         }
     }
 }
